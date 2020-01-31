@@ -1,8 +1,9 @@
 class PropertiesController < ApplicationController
+    skip_before_action :authorized, only: [:create, :index]
 
     def index 
         properties = Property.all 
-        render json: properties
+        render json: properties, include: [:user]
     end
 
     def create 
@@ -18,23 +19,6 @@ class PropertiesController < ApplicationController
       def property_params
         params.require(:property).permit(:user_id, :address, :rent, :bedrooms, :bathrooms, :sqft, :availability, :available_date, :description, :longitude, :latitude)
     end
-
-    create_table "properties", force: :cascade do |t|
-        t.bigint "user_id", null: false
-        t.string "address"
-        t.string "rent"
-        t.string "bedrooms"
-        t.string "bathrooms"
-        t.string "sqft"
-        t.boolean "availability"
-        t.string "available_date"
-        t.string "description"
-        t.float "longitude"
-        t.float "latitude"
-        t.datetime "created_at", precision: 6, null: false
-        t.datetime "updated_at", precision: 6, null: false
-        t.index ["user_id"], name: "index_properties_on_user_id"
-      end
 
 
 end
