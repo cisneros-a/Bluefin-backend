@@ -1,4 +1,4 @@
 class Property < ApplicationRecord
   belongs_to :user
-  has_many_attached :avatar
+  has_one_attached :uploads
 end
