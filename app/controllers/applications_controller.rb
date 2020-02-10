@@ -10,6 +10,9 @@ class ApplicationsController < ApplicationController
 
     def index
         applications = Application.all
+        properties = Property.all
+        properties_with_uploads = properties.map{ |property| { property: property, uploads: rails_blob_path(property.uploads) }}
+        puts properties_with_uploads
         render json: applications, include: [:landlord, :tenant, :property]
     end 
 

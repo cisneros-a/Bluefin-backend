@@ -1,5 +1,5 @@
 class PropertiesController < ApplicationController
-    skip_before_action :authorized, only: [:create, :index, :show, :update]
+    skip_before_action :authorized, only: [:create, :index, :show, :update, :update_availability]
 
     def index 
         properties = Property.all
@@ -15,23 +15,19 @@ class PropertiesController < ApplicationController
 
     def show
         property = Property.find(params[:id])
-        puts '--------------PUT--------------'
-        render json: {property: property}
-    #     if property.uploads
-    #     uploads = rails_blob_path(property.uploads, disposition: "attachment", only_path: true)
-    #     end 
-    #    if property
-    #       if uploads == true
-    #       render json: { property: property, uploads: uploads }
-    #       else 
-    #         render json: { property: property}
-    #       end   
-    #     else
-    #       render json: {
-    #         status: 500,
-    #         errors: ['user not found']
-    #       }
-    #     end
+        
+        uploads = rails_blob_path(property.uploads, disposition: "attachment", only_path: true)
+        
+       if property
+        
+          render json: { property: property, uploads: uploads }
+             
+        else
+          render json: {
+            status: 500,
+            errors: ['user not found']
+          }
+        end
     end
 
     def update
@@ -44,17 +40,33 @@ class PropertiesController < ApplicationController
       render json: { property: property, uploads_url: uploads_url }
       end
 
+
+
       def update_availability
-        property = Property.find(params[id])
+        property = Property.find(params[:id])
         property.update(property_params)  
-        render json: {property: property}
+        uploads_url = rails_blob_path(property.uploads)
+        render json: {property: property, uploads_url: uploads_url}
       end       
 
 
       
 
       def property_params
-        params.require(:property).permit(:user_id, :address, :rent, :bedrooms, :bathrooms, :sqft, :availability, :available_date, :description, :longitude, :latitude, uploads: [] )
+        params.require(:property)
+        .permit(
+          :user_id,
+          :address,
+          :rent,
+          :bedrooms,
+          :bathrooms,
+          :sqft,
+          :availability,
+          :available_date,
+          :description,
+          :longitude,
+          :latitude,
+          uploads: [] )
     end
 
 

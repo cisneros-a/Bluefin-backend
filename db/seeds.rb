@@ -7,7 +7,7 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
                                                                                                                                                                                                 
-# Property.create(user_id: 2, address: '300 E 33rd St.', rent: '1900', bedrooms: '4', bathrooms: '2.5', sqft: '1900', availability: 1, available_date: '02/14/20', description: "Nice home close to downtown.", latitude: 30.296407, longitude: -97.733632)
+# Property.create(user_id: 2, address: '300 E 33rd St, Austin, TX 78705', rent: '1900', bedrooms: '4', bathrooms: '2.5', sqft: '1900', availability: 1, available_date: '02/14/20', description: "Nice home close to downtown.", latitude: 30.296407, longitude: -97.733632)
 # Property.create(user_id: 2, address: '3009 Breeze Terrace, Austin, TX 78722', rent: '1700', bedrooms: '3', bathrooms: '2', sqft: '1400', availability: 1, available_date: '02/18/20', description: "Well kept home close to many places to eat..", latitude: 30.286225, longitude: -97.718267)
 # Property.create(user_id: 2, address: '1098 E 15th St, Austin, TX 78702', rent: '2200', bedrooms: '4', bathrooms: '3', sqft: '2100', availability: 0, available_date: 'N/A', description: "Large home close to I-35", latitude: 30.275411, longitude: -97.729056)
 # Property.create(user_id: 2, address: '1728 Rogge Ln, Austin, TX 78723', rent: '2000', bedrooms: '4', bathrooms: '2.5', sqft: '1845', availability: 1, available_date: '03/20/20', description: "Pet friendly and great kitchen!", latitude: 30.307208, longitude: -97.695132)  
@@ -30,3 +30,10 @@ property1.uploads.attach(
     filename: 'home1.png',
     content_type: 'application/png'
 )
+
+
+ Property.create(user_id: 4, address: '2798 Pinewood Terrace, Austin, TX 78757', rent: '2700', bedrooms: '4', bathrooms: '2', sqft: '2097', availability: 1, available_date: '02/02/20', description: "CLEAN & TONS OF STORAGE SPACE!!!", latitude: 30.350558, longitude: -97.738240) 
+
+
+
+ 
