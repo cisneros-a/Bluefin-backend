@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   post '/login', to: 'auth#create'
   get '/profile', to: 'users#profile'
   get '/landlord_properties/:id', to: 'users#landlord_properties'
+  get '/landlord_applications/:id', to: 'applications#landlord_applications'
+  get '/tenant_applications/:id', to: 'applications#tenant_applications'
   post '/rails/active_storage/direct_uploads', to: 'direct_uploads#create'
   patch '/update_availability/:id', to: 'properties#update_availability'
 
