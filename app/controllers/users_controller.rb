@@ -22,18 +22,20 @@ class UsersController < ApplicationController
     
   def landlord_properties
     user = User.find(params[:id])
-    allUserProperties = Property.all.select{|property| property.user_id == user.id} 
-    properties_with_uploads = allUserProperties.map{ |property| { property: property, uploads: rails_blob_path(property.uploads)}}
-    userLeasedProperties = properties_with_uploads.select{|property| property[:property].availability}
-    userUnleasedProperties = properties_with_uploads.select{|property| !property[:property].availability}
+    user_properties = Property.all.select{|property| property.user_id == user.id} 
+    properties_with_uploads = user_properties.map{ |property| { property: property, uploads: rails_blob_path(property.uploads)}}
+    leased_properties = properties_with_uploads.select{|property| property[:property].availability}
+    unleased_properties = properties_with_uploads.select{|property| !property[:property].availability}
+    render json: {leased_properties: leased_properties, unleased_properties: unleased_properties}
+  end 
 
-        # property_with_img = Property.joins(:uploads_attachment)
+  # def landlord_applications
+  #   user = User.find(params[:id])
+  #   pending_applications = Application.all.select{|application| application.landlord_id == user.id && application.status == "Pending"} 
+  #   render json: {applications: pending_applications}
+  # end 
 
-
-    
-     render json: {leased_properties: userLeasedProperties, unleased_properties: userUnleasedProperties}
-    end 
-
+ 
      
   private
   def user_params

@@ -9,7 +9,7 @@ class ApplicationsController < ApplicationController
 
 
     def index
-        @applications = Application.all
+        applications = Application.all
         render json: applications, include: [:landlord, :tenant, :property]
     end 
 
@@ -38,6 +38,13 @@ class ApplicationsController < ApplicationController
     def destroy
         Application.destroy(params[:id])
       end
+
+      def landlord_applications
+    
+        user = User.find(params[:id])
+        applications = Application.all.select{|application| application.tenant_id == user.id} 
+        render json: applications, include: [:landlord, :tenant, :property]
+      end 
 
     private
     
