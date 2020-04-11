@@ -1,6 +1,6 @@
 class ApplicationsController < ApplicationController    
-    skip_before_action :authorized, only: [:create, :index, :show, :update, :destroy]
-
+    skip_before_action :authorized, only: [:create, :index, :show, :update, :destroy, :landlord_applications]
+    
 
     def create
         @application = Application.create(application_params)
@@ -9,10 +9,7 @@ class ApplicationsController < ApplicationController
 
 
     def index
-        applications = Application.all
-        properties = Property.all
-        properties_with_uploads = properties.map{ |property| { property: property, uploads: rails_blob_path(property.uploads) }}
-        puts properties_with_uploads
+        @applications = Application.all
         render json: applications, include: [:landlord, :tenant, :property]
     end 
 

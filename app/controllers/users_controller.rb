@@ -1,5 +1,10 @@
 class UsersController < ApplicationController
-    skip_before_action :authorized, only: [:create, :index]
+    skip_before_action :authorized, only: [:create, :index, :landlord_applications]
+    
+    def index
+      users = User.all 
+      render json: users
+    end
 
     def profile
         render json: { user: UserSerializer.new(current_user) }, status: :accepted
@@ -15,17 +20,24 @@ class UsersController < ApplicationController
         end
       end
     
-      def show
-      end 
+  def landlord_properties
+    user = User.find(params[:id])
+    allUserProperties = Property.all.select{|property| property.user_id == user.id} 
+    properties_with_uploads = allUserProperties.map{ |property| { property: property, uploads: rails_blob_path(property.uploads)}}
+    userLeasedProperties = properties_with_uploads.select{|property| property[:property].availability}
+    userUnleasedProperties = properties_with_uploads.select{|property| !property[:property].availability}
 
-      def index
-        users = User.all 
-        render json: users
-    end
+        # property_with_img = Property.joins(:uploads_attachment)
+
+
+    
+     render json: {leased_properties: userLeasedProperties, unleased_properties: userUnleasedProperties}
+    end 
+
      
-      private
-      def user_params
-        params.require(:user).permit(:name, :password, :email, :type)
-      end
+  private
+  def user_params
+    params.require(:user).permit(:name, :password, :email, :type)
+  end
 end
 

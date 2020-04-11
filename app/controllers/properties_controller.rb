@@ -3,10 +3,17 @@ class PropertiesController < ApplicationController
 
     def index 
         properties = Property.all
-        properties_with_uploads = properties.map{ |property| { property: property, uploads: rails_blob_path(property.uploads) }}
+        properties_with_uploads = properties.map{ |property| { property: property, uploads: rails_blob_path(property.uploads)}}
+        # property_with_img = Property.joins(:uploads_attachment)
 
         render json: properties_with_uploads, include: [:user]
     end
+
+    def landlord_properties
+      byebug
+      applications = Application.all
+      user = Property.find(params[:id])
+    end 
 
     def create 
         property = Property.create(property_params)
@@ -15,9 +22,7 @@ class PropertiesController < ApplicationController
 
     def show
         property = Property.find(params[:id])
-        
         uploads = rails_blob_path(property.uploads, disposition: "attachment", only_path: true)
-        
        if property
         
           render json: { property: property, uploads: uploads }
@@ -31,9 +36,6 @@ class PropertiesController < ApplicationController
     end
 
     def update
-        puts '=====hitting update======='
-        property = Property.find(params[:id])
-        # property.update(property_params)        
         property = Property.find(params[:id])
       property.update(uploads: params[:uploads])
       uploads_url = rails_blob_path(property.uploads)
@@ -69,5 +71,11 @@ class PropertiesController < ApplicationController
           uploads: [] )
     end
 
+    
+  end
+  
+  def puts_property
+    puts 'testing'
+  end 
 
-end
+  puts_property()

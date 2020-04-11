@@ -9,6 +9,14 @@ class DirectUploadsController < ActiveStorage::DirectUploadsController
     private
 
     def direct_upload_json(blob)
+        puts "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+        puts "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+        puts "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+        puts blob 
+        puts "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+        puts "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+        puts "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+
         blob.as_json(root: false, methods: :signed_id)
         .merge(service_url: url_for(blob))
         .merge(direct_upload: {
