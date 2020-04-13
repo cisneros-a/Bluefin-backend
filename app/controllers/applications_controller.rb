@@ -1,5 +1,5 @@
 class ApplicationsController < ApplicationController    
-    skip_before_action :authorized, only: [:create, :index, :show, :update, :destroy, :landlord_applications]
+    skip_before_action :authorized, only: [:create, :index, :show, :update, :destroy, :landlord_applications, :tenant_applications]
     
 
     def create
@@ -40,7 +40,12 @@ class ApplicationsController < ApplicationController
       end
 
       def landlord_applications
-    
+        user = User.find(params[:id])
+        applications = Application.all.select{|application| application.landlord_id == user.id} 
+        render json: applications, include: [:landlord, :tenant, :property]
+      end 
+
+      def tenant_applications
         user = User.find(params[:id])
         applications = Application.all.select{|application| application.tenant_id == user.id} 
         render json: applications, include: [:landlord, :tenant, :property]
