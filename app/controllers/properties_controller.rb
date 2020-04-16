@@ -10,9 +10,12 @@ class PropertiesController < ApplicationController
     end
 
     def landlord_properties
-      byebug
-      applications = Application.all
-      user = Property.find(params[:id])
+      user = User.find(params[:id])
+      user_properties = Property.all.select{|property| property.user_id == user.id} 
+      properties_with_uploads = user_properties.map{ |property| { property: property, uploads: rails_blob_path(property.uploads)}}
+      unleased_properties = properties_with_uploads.select{|property| property[:property].availability}
+      leased_properties = properties_with_uploads.select{|property| !property[:property].availability}
+      render json: {leased_properties: leased_properties, unleased_properties: unleased_properties}
     end 
 
     def create 
@@ -74,8 +77,3 @@ class PropertiesController < ApplicationController
     
   end
   
-  def puts_property
-    puts 'testing'
-  end 
-
-  puts_property()
