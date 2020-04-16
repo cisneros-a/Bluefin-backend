@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_04_203238) do
+ActiveRecord::Schema.define(version: 2020_04_14_005412) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,18 @@ ActiveRecord::Schema.define(version: 2020_02_04_203238) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["property_id"], name: "index_favorites_on_property_id"
     t.index ["user_id"], name: "index_favorites_on_user_id"
+  end
+
+  create_table "fixes", force: :cascade do |t|
+    t.bigint "landlord_id", null: false
+    t.bigint "tenant_id", null: false
+    t.bigint "property_id", null: false
+    t.string "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["landlord_id"], name: "index_fixes_on_landlord_id"
+    t.index ["property_id"], name: "index_fixes_on_property_id"
+    t.index ["tenant_id"], name: "index_fixes_on_tenant_id"
   end
 
   create_table "leases", force: :cascade do |t|
@@ -104,6 +116,9 @@ ActiveRecord::Schema.define(version: 2020_02_04_203238) do
   add_foreign_key "applications", "users", column: "tenant_id"
   add_foreign_key "favorites", "properties"
   add_foreign_key "favorites", "users"
+  add_foreign_key "fixes", "properties"
+  add_foreign_key "fixes", "users", column: "landlord_id"
+  add_foreign_key "fixes", "users", column: "tenant_id"
   add_foreign_key "leases", "properties"
   add_foreign_key "leases", "users", column: "landlord_id"
   add_foreign_key "leases", "users", column: "tenant_id"

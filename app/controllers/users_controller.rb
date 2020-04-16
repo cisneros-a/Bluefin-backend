@@ -20,14 +20,7 @@ class UsersController < ApplicationController
         end
       end
     
-  def landlord_properties
-    user = User.find(params[:id])
-    user_properties = Property.all.select{|property| property.user_id == user.id} 
-    properties_with_uploads = user_properties.map{ |property| { property: property, uploads: rails_blob_path(property.uploads)}}
-    leased_properties = properties_with_uploads.select{|property| property[:property].availability}
-    unleased_properties = properties_with_uploads.select{|property| !property[:property].availability}
-    render json: {leased_properties: leased_properties, unleased_properties: unleased_properties}
-  end 
+ 
 
   # def landlord_applications
   #   user = User.find(params[:id])

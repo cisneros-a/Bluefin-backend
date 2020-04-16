@@ -1,5 +1,5 @@
 class LeasesController < ApplicationController
-    skip_before_action :authorized, only: [:create, :index]
+    skip_before_action :authorized, only: [:create, :index, :landlord_lease]
 
     def index
         leases = Lease.all
@@ -10,6 +10,17 @@ class LeasesController < ApplicationController
         @new = Lease.create(lease_params)
         puts @new
     end 
+
+    def landlord_lease
+        property = Property.find(params[:id])
+        fixes = Fix.all.select{|fix| fix.property_id == property.id} 
+        fixes_with_uploads = fixes.map{ |fix| { fix: fix, uploads: rails_blob_path(fix.uploads)}} 
+        lease = Lease.all.find{|lease| lease.property_id == property.id }
+        tenant = User.all.find{|user| user.id == lease.tenant_id}
+        
+
+        render json: {lease: lease, property: property, tenant: tenant, fixes: fixes_with_uploads }
+      end 
 
     private
 
