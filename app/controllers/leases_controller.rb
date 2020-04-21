@@ -12,10 +12,11 @@ class LeasesController < ApplicationController
     end 
 
     def landlord_lease
+        num = Integer(params[:id])
         property = Property.find(params[:id])
-        fixes = Fix.all.select{|fix| fix.property_id == property.id} 
+        fixes = Fix.all.select{|fix| fix.property_id == num} 
         fixes_with_uploads = fixes.map{ |fix| { fix: fix, uploads: rails_blob_path(fix.uploads)}} 
-        lease = Lease.all.find{|lease| lease.property_id == property.id }
+        lease = Lease.all.find{|lease| lease.property_id == num}
         tenant = User.all.find{|user| user.id == lease.tenant_id}
         
 
