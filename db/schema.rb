@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_14_005412) do
+ActiveRecord::Schema.define(version: 2020_04_22_021616) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,6 +65,7 @@ ActiveRecord::Schema.define(version: 2020_04_14_005412) do
     t.string "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "status", default: "Unresolved"
     t.index ["landlord_id"], name: "index_fixes_on_landlord_id"
     t.index ["property_id"], name: "index_fixes_on_property_id"
     t.index ["tenant_id"], name: "index_fixes_on_tenant_id"

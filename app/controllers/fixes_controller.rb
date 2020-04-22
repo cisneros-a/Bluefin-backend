@@ -1,5 +1,5 @@
 class FixesController < ApplicationController
-    skip_before_action :authorized, only: [:create, :index, :show, :update]
+    skip_before_action :authorized, only: [:create, :index, :show, :update, :update_resolved]
 
     def index
         fixes = Fix.all
@@ -31,6 +31,11 @@ class FixesController < ApplicationController
       render json: { fix: fix, uploads_url: uploads_url }
       end
 
+      def update_resolved
+        fix = Fix.find(params[:id])
+        fix.update(fix_params)
+      end
+
       def property_fixes
         property = Property.find(params[:id])
         fixes = Fix.all.select{|fix| fix.property_id == property.id} 
@@ -40,6 +45,6 @@ class FixesController < ApplicationController
     private
 
     def fix_params
-        params.require(:fix).permit(:landlord_id, :tenant_id, :property_id, :description)
+        params.require(:fix).permit(:landlord_id, :tenant_id, :property_id, :description, :status)
     end 
 end
