@@ -13,5 +13,7 @@ Rails.application.routes.draw do
   get '/tenant_applications/:id', to: 'applications#tenant_applications'
   post '/rails/active_storage/direct_uploads', to: 'direct_uploads#create'
   patch '/update_availability/:id', to: 'properties#update_availability'
+  patch '/update_resolved/:id', to: 'fixes#update_resolved'
+
 
 end
