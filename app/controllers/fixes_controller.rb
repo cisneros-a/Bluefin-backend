@@ -7,7 +7,11 @@ class FixesController < ApplicationController
     end 
 
     def create
+      puts "==================="
         fix = Fix.create(fix_params)
+        puts fix
+
+        puts fix.id
         render json: fix.id
     end 
 
@@ -31,16 +35,16 @@ class FixesController < ApplicationController
       render json: { fix: fix, uploads_url: uploads_url }
       end
 
-      def update_resolved
-        fix = Fix.find(params[:id])
-        fix.update(fix_params)
-      end
+    def update_resolved
+      fix = Fix.find(params[:id])
+      fix.update(fix_params)
+    end
 
-      def property_fixes
-        property = Property.find(params[:id])
-        fixes = Fix.all.select{|fix| fix.property_id == property.id} 
-        render json: fixes, include: [:landlord, :tenant, :property]
-      end 
+    def property_fixes
+      property = Property.find(params[:id])
+      fixes = Fix.all.select{|fix| fix.property_id == property.id} 
+      render json: fixes, include: [:landlord, :tenant, :property]
+    end 
 
     private
 

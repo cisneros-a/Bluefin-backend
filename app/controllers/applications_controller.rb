@@ -41,7 +41,7 @@ class ApplicationsController < ApplicationController
 
       def landlord_applications
         user = User.find(params[:id])
-        applications = Application.all.select{|application| application.landlord_id == user.id} 
+        applications = Application.all.select{|application| application.landlord_id == user.id && application.status === 'Pending'} 
         render json: applications, include: [:landlord, :tenant, :property]
       end 
 
